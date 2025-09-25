@@ -5,6 +5,16 @@ function isSupabaseConfigured(): boolean {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
+  // Debug temporal - solo en desarrollo
+  if (typeof window !== 'undefined') {
+    console.log('🔍 Debug Supabase Config:', {
+      url: url ? `${url.substring(0, 30)}...` : 'NOT_FOUND',
+      anonKey: anonKey ? `${anonKey.substring(0, 20)}...` : 'NOT_FOUND',
+      hasUrl: !!url,
+      hasAnonKey: !!anonKey
+    })
+  }
+
   if (!url || url === 'undefined' || url === '' || url === 'your-project-ref.supabase.co') {
     return false
   }
