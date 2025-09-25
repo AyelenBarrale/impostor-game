@@ -22,7 +22,8 @@ export function GameVoting({ gameState, updateGameState }: GameComponentProps) {
       votes: votes[player.id] || 0,
     }))
 
-    const mostVotedPlayer = updatedPlayers.reduce((prev, current) => (current.votes > prev.votes ? current : prev))
+    // Variable no utilizada temporalmente - se usa en game-result.tsx
+    // const mostVotedPlayer = updatedPlayers.reduce((prev, current) => (current.votes > prev.votes ? current : prev))
 
     updateGameState({
       players: updatedPlayers,

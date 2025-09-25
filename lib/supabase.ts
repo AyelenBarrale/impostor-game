@@ -31,7 +31,7 @@ export const supabase = new Proxy({} as ReturnType<typeof createClient>, {
       const config = getSupabaseConfig()
       _supabase = createClient(config.url, config.anonKey)
     }
-    return (_supabase as any)[prop]
+    return (_supabase as unknown as ReturnType<typeof createClient>)[prop as keyof ReturnType<typeof createClient>]
   }
 })
 
@@ -55,6 +55,6 @@ export const supabaseAdmin = new Proxy({} as ReturnType<typeof createClient>, {
         }
       })
     }
-    return (_supabaseAdmin as any)[prop]
+    return (_supabaseAdmin as unknown as ReturnType<typeof createClient>)[prop as keyof ReturnType<typeof createClient>]
   }
 })
