@@ -1,15 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: false, // Enable ESLint for better builds
   },
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false, // Enable TypeScript checking
   },
   images: {
     unoptimized: true,
   },
-  // Variables de entorno se manejan automáticamente con NEXT_PUBLIC_ prefix
 }
 
 export default nextConfig

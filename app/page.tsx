@@ -2,8 +2,7 @@
 
 import { useState } from "react"
 
-// Forzar rendering dinámico para evitar errores de build con variables de entorno
-export const dynamic = 'force-dynamic'
+// Removed dynamic export to fix Vercel 404 issues
 import { GameSetup } from "@/components/game-setup"
 import { GamePlay } from "@/components/game-play"
 import { GameVoting } from "@/components/game-voting"

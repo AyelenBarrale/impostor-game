@@ -1,5 +1,9 @@
 import { supabase } from './supabase'
 import type { CategoryWithWords } from './types'
+import type { Database } from './database.types'
+
+type Category = Database['public']['Tables']['categories']['Row']
+type Word = Database['public']['Tables']['words']['Row']
 
 /**
  * Obtiene todas las categorías con sus palabras desde Supabase
@@ -24,17 +28,17 @@ export async function getCategories(): Promise<CategoryWithWords[]> {
     const { data: words, error: wordsError } = await supabase
       .from('words')
       .select('word')
-      .eq('category_id', category.id)
+      .eq('category_id', (category as Category).id)
 
     if (wordsError) {
-      console.error(`Error fetching words for category ${category.name}:`, wordsError)
+      console.error(`Error fetching words for category ${(category as Category).name}:`, wordsError)
       continue
     }
 
     categoriesWithWords.push({
-      id: category.id,
-      name: category.name,
-      words: words?.map(w => w.word) || []
+      id: (category as Category).id,
+      name: (category as Category).name,
+      words: words?.map(w => (w as Word).word) || []
     })
   }
 
@@ -55,5 +59,5 @@ export async function getCategoryWords(categoryId: number): Promise<string[]> {
     return []
   }
 
-  return words?.map(w => w.word) || []
+  return words?.map(w => (w as Word).word) || []
 }
