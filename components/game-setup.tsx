@@ -17,6 +17,8 @@ export function GameSetup({ gameState, updateGameState }: GameComponentProps) {
   const [categories, setCategories] = useState<CategoryWithWords[]>([])
   const [loading, setLoading] = useState(false)
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null)
+  const [error, setError] = useState<string | null>(null)
+  const [usingFallback, setUsingFallback] = useState(false)
 
   // Cargar categorías desde Supabase al montar el componente
   useEffect(() => {
@@ -25,11 +27,39 @@ export function GameSetup({ gameState, updateGameState }: GameComponentProps) {
 
   const loadCategories = async () => {
     setLoading(true)
+    setError(null)
+    setUsingFallback(false)
+    
     try {
       const categoriesData = await getCategories()
       setCategories(categoriesData)
+      
+      if (categoriesData.length === 0) {
+        setError('No se encontraron categorías.')
+      } else {
+        // Verificar si estamos usando categorías de fallback
+        // Las categorías de fallback tienen IDs 1-5 y nombres específicos
+        const fallbackNames = ['Animales', 'Comida', 'Deportes', 'Profesiones', 'Países']
+        const isUsingFallback = categoriesData.length === 5 && 
+          categoriesData.every(cat => fallbackNames.includes(cat.name) && cat.id <= 5)
+        
+        setUsingFallback(isUsingFallback)
+      }
     } catch (error) {
       console.error('Error loading categories:', error)
+      
+      // Siempre intentar obtener categorías de fallback
+      try {
+        const fallbackCategories = await getCategories()
+        if (fallbackCategories.length > 0) {
+          setCategories(fallbackCategories)
+          setUsingFallback(true)
+        } else {
+          setError('No se pudieron cargar las categorías.')
+        }
+      } catch (fallbackError) {
+        setError('Error crítico: No se pudieron cargar las categorías.')
+      }
     } finally {
       setLoading(false)
     }
@@ -174,15 +204,44 @@ export function GameSetup({ gameState, updateGameState }: GameComponentProps) {
           <div className="text-center space-y-6">
             <h2 className="text-3xl font-bold text-accent">Seleccionar Categoría</h2>
             <p className="text-muted-foreground text-lg">Elige la categoría para esta ronda</p>
+            {usingFallback && (
+              <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl">
+                <p className="text-amber-600 text-sm">
+                  ℹ️ Usando categorías offline. Para más categorías, configura Supabase en Vercel.
+                </p>
+              </div>
+            )}
 
             {loading ? (
               <div className="flex items-center justify-center space-x-2">
                 <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
                 <span className="text-muted-foreground">Cargando categorías...</span>
               </div>
+            ) : error ? (
+              <div className="text-center space-y-4 max-w-md mx-auto">
+                <div className="p-4 bg-destructive/10 border border-destructive/20 rounded-xl">
+                  <p className="text-destructive text-sm font-medium mb-2">Error de Configuración</p>
+                  <p className="text-destructive/80 text-sm">{error}</p>
+                </div>
+                {error.includes('Vercel') && (
+                  <div className="text-xs text-muted-foreground space-y-2">
+                    <p>Para solucionarlo:</p>
+                    <ol className="list-decimal list-inside text-left space-y-1">
+                      <li>Ve a tu proyecto en Vercel</li>
+                      <li>Settings → Environment Variables</li>
+                      <li>Agrega NEXT_PUBLIC_SUPABASE_URL</li>
+                      <li>Agrega NEXT_PUBLIC_SUPABASE_ANON_KEY</li>
+                      <li>Redeploy el proyecto</li>
+                    </ol>
+                  </div>
+                )}
+                <Button onClick={loadCategories} variant="outline" className="rounded-xl">
+                  Reintentar
+                </Button>
+              </div>
             ) : categories.length === 0 ? (
               <div className="text-center space-y-4">
-                <p className="text-muted-foreground">No se pudieron cargar las categorías</p>
+                <p className="text-muted-foreground">No se encontraron categorías</p>
                 <Button onClick={loadCategories} variant="outline" className="rounded-xl">
                   Reintentar
                 </Button>
