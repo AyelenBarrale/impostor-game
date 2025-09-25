@@ -9,7 +9,7 @@ import { GameVoting } from "@/components/game-voting"
 import { GameResult } from "@/components/game-result"
 import type { GameState } from "@/lib/types"
 
-export default function ImpostorGame() {
+export default function HomePage() {
   const [gameState, setGameState] = useState<GameState>({
     phase: "setup",
     players: [],
