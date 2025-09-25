@@ -1,11 +1,6 @@
 // Tipos compartidos para el juego de impostores
-import type { Database } from './database.types'
 
 export type GamePhase = "setup" | "play" | "voting" | "result"
-
-// Tipos de base de datos
-export type Category = Database['public']['Tables']['categories']['Row']
-export type Word = Database['public']['Tables']['words']['Row']
 
 // Tipo para categorías con sus palabras
 export interface CategoryWithWords {

@@ -38,10 +38,9 @@ export function GameSetup({ gameState, updateGameState }: GameComponentProps) {
         setError('No se encontraron categorías.')
       } else {
         // Verificar si estamos usando categorías de fallback
-        // Las categorías de fallback tienen IDs 1-5 y nombres específicos
         const fallbackNames = ['Animales', 'Comida', 'Deportes', 'Profesiones', 'Países']
         const isUsingFallback = categoriesData.length === 5 && 
-          categoriesData.every(cat => fallbackNames.includes(cat.name) && cat.id <= 5)
+          categoriesData.every(cat => fallbackNames.includes(cat.name))
         
         setUsingFallback(isUsingFallback)
       }
@@ -57,7 +56,7 @@ export function GameSetup({ gameState, updateGameState }: GameComponentProps) {
         } else {
           setError('No se pudieron cargar las categorías.')
         }
-      } catch (fallbackError) {
+      } catch {
         setError('Error crítico: No se pudieron cargar las categorías.')
       }
     } finally {
