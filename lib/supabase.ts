@@ -1,13 +1,34 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+// Función para obtener la configuración de Supabase de forma segura
+function getSupabaseConfig() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+  if (!url) {
+    throw new Error(
+      'Missing NEXT_PUBLIC_SUPABASE_URL environment variable. ' +
+      'Please check your .env.local file.'
+    )
+  }
+
+  if (!anonKey) {
+    throw new Error(
+      'Missing NEXT_PUBLIC_SUPABASE_ANON_KEY environment variable. ' +
+      'Please check your .env.local file.'
+    )
+  }
+
+  return { url, anonKey }
+}
+
+// Obtener configuración y crear cliente
+const config = getSupabaseConfig()
+export const supabase = createClient(config.url, config.anonKey)
 
 // For server-side operations
 export const supabaseAdmin = createClient(
-  supabaseUrl,
+  config.url,
   process.env.SUPABASE_SERVICE_ROLE_KEY!,
   {
     auth: {

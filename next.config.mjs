@@ -9,6 +9,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  // Variables de entorno se manejan automáticamente con NEXT_PUBLIC_ prefix
 }
 
 export default nextConfig
