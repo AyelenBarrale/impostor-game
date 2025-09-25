@@ -1,6 +1,9 @@
 "use client"
 
 import { useState } from "react"
+
+// Forzar rendering dinámico para evitar errores de build con variables de entorno
+export const dynamic = 'force-dynamic'
 import { GameSetup } from "@/components/game-setup"
 import { GamePlay } from "@/components/game-play"
 import { GameVoting } from "@/components/game-voting"
