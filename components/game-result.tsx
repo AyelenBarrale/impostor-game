@@ -76,7 +76,7 @@ export function GameResult({ gameState, updateGameState }: GameComponentProps) {
             className="bg-primary text-primary-foreground hover:bg-primary/90 tactical-glow"
             size="lg"
           >
-            NUEVA OPERACIÓN
+            NUEVA PARTIDA
           </Button>
         </div>
       </Card>
