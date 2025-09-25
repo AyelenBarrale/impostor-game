@@ -1,0 +1,206 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Updated color scheme inspired by the clean card images and cyber champion colors */
+  --background: oklch(0.97 0.01 180); /* Very light gray-blue background */
+  --foreground: oklch(0.2 0.05 240); /* Dark navy text */
+  --card: oklch(0.99 0.005 180); /* Almost white cards */
+  --card-foreground: oklch(0.2 0.05 240); /* Dark navy on cards */
+  --popover: oklch(0.99 0.005 180);
+  --popover-foreground: oklch(0.2 0.05 240);
+  --primary: oklch(0.55 0.2 160); /* Vibrant mint green */
+  --primary-foreground: oklch(0.99 0.005 180);
+  --secondary: oklch(0.94 0.02 180); /* Light gray-blue secondary */
+  --secondary-foreground: oklch(0.2 0.05 240);
+  --muted: oklch(0.95 0.01 180);
+  --muted-foreground: oklch(0.5 0.05 240);
+  --accent: oklch(0.25 0.08 240); /* Dark navy accent */
+  --accent-foreground: oklch(0.99 0.005 180);
+  --destructive: oklch(0.6 0.2 15); /* Vibrant red for impostor */
+  --destructive-foreground: oklch(0.99 0.005 180);
+  --border: oklch(0.88 0.02 180); /* Soft border */
+  --input: oklch(0.97 0.01 180);
+  --ring: oklch(0.55 0.2 160);
+  --radius: 1rem;
+
+  /* Added cyber-inspired accent colors */
+  --cyber-purple: oklch(0.65 0.25 300);
+  --cyber-cyan: oklch(0.7 0.2 200);
+  --cyber-yellow: oklch(0.8 0.15 80);
+}
+
+.dark {
+  --background: oklch(0.97 0.01 180);
+  --foreground: oklch(0.2 0.05 240);
+  --card: oklch(0.99 0.005 180);
+  --card-foreground: oklch(0.2 0.05 240);
+  --popover: oklch(0.99 0.005 180);
+  --popover-foreground: oklch(0.2 0.05 240);
+  --primary: oklch(0.55 0.2 160);
+  --primary-foreground: oklch(0.99 0.005 180);
+  --secondary: oklch(0.94 0.02 180);
+  --secondary-foreground: oklch(0.2 0.05 240);
+  --muted: oklch(0.95 0.01 180);
+  --muted-foreground: oklch(0.5 0.05 240);
+  --accent: oklch(0.25 0.08 240);
+  --accent-foreground: oklch(0.99 0.005 180);
+  --destructive: oklch(0.6 0.2 15);
+  --destructive-foreground: oklch(0.99 0.005 180);
+  --border: oklch(0.88 0.02 180);
+  --input: oklch(0.97 0.01 180);
+  --ring: oklch(0.55 0.2 160);
+}
+
+@theme inline {
+  /* Updated to use rounded font family */
+  --font-sans: var(--font-rounded);
+  --font-mono: var(--font-geist-mono);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+}
+
+/* Updated background pattern to be more subtle and modern */
+.modern-pattern {
+  background: radial-gradient(circle at 20% 80%, oklch(0.55 0.2 160 / 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, oklch(0.65 0.25 300 / 0.02) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, oklch(0.7 0.2 200 / 0.02) 0%, transparent 50%),
+    linear-gradient(135deg, oklch(0.97 0.01 180) 0%, oklch(0.96 0.02 190) 100%);
+}
+
+/* Removed all 3D effects and box shadows for flat design */
+.clean-card {
+  border: 2px solid var(--border);
+  background: var(--card);
+  transition: all 0.2s ease;
+}
+
+.clean-card:hover:not(.card-disabled) {
+  border-color: var(--primary);
+  transform: translateY(-1px);
+}
+
+/* Simplified card flip animation without 3D perspective */
+.card-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.3s ease;
+}
+
+.card-container.flipped .card-front {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.card-container.flipped .card-back {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-front {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.card-back {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+/* Updated card styles with vibrant colors inspired by cyber champion */
+.impostor-card {
+  background: linear-gradient(135deg, oklch(0.6 0.2 15 / 0.1), oklch(0.65 0.25 300 / 0.05));
+  border: 2px solid var(--destructive);
+}
+
+.player-card {
+  background: linear-gradient(135deg, oklch(0.55 0.2 160 / 0.1), oklch(0.7 0.2 200 / 0.05));
+  border: 2px solid var(--primary);
+}
+
+/* Enhanced disabled card styles with clear visual indication */
+.card-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: oklch(0.94 0.01 180);
+  border: 2px solid oklch(0.88 0.02 180);
+  position: relative;
+}
+
+.card-disabled::before {
+  content: "✓ USADA";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: oklch(0.5 0.05 240);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  z-index: 10;
+}
+
+.card-disabled:hover {
+  transform: none;
+  border-color: oklch(0.88 0.02 180);
+}

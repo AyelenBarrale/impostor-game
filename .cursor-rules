@@ -1,0 +1,137 @@
+# Reglas de Desarrollo - Impostor Game
+
+## 📋 Principios Fundamentales
+
+### Formateo y Estilo
+- **Utiliza siempre la tabulación para formatear el código**
+- Mantén consistencia en la indentación (2 espacios para TypeScript/React)
+- Usa nombres descriptivos para variables, funciones y componentes
+- Sigue las convenciones de naming de React (PascalCase para componentes, camelCase para funciones)
+
+### Simplicidad y Mantenibilidad
+- **Prioriza siempre soluciones simples**
+- Evita over-engineering; implementa solo lo necesario
+- Prefiere composición sobre herencia
+- Mantén funciones pequeñas y con una sola responsabilidad
+
+### Gestión de Cambios
+- **Después de realizar cambios, SIEMPRE asegúrate de iniciar un nuevo servidor para que puedan probarse** (en caso de que sea necesario)
+- Verifica que el desarrollo server funcione correctamente después de cambios importantes
+- Usa `npm run dev` para probar cambios localmente
+
+### Limpieza de Código
+- **Mata siempre todos los servidores relacionados que hayan sido creados en pruebas anteriores antes de iniciar un nuevo servidor**
+- Cierra procesos de desarrollo previos antes de iniciar nuevos
+- Limpia dependencias no utilizadas regularmente
+
+### Reutilización y DRY
+- **Busca siempre código existente para iterar en lugar de crear nuevo código desde cero**
+- Revisa componentes existentes antes de crear nuevos
+- Reutiliza hooks, utilities y componentes cuando sea posible
+- Mantén un directorio `lib/` organizado con utilidades reutilizables
+
+### Prevención de Duplicación
+- **Evita la duplicación de código siempre que sea posible**
+- Revisa si ya existe una parte del código con lógica o funcionalidad similar
+- Extrae lógica común en hooks personalizados o utilities
+- Usa TypeScript interfaces para evitar duplicación de tipos
+
+### Consideración de Entornos
+- **Escribe código que tenga en cuenta los diferentes entornos: desarrollo, pruebas y producción**
+- Usa variables de entorno apropiadas (.env.local, .env.example)
+- Configura diferentes comportamientos para desarrollo vs producción
+- Considera el rendimiento en producción desde el desarrollo
+
+### Enfoque en Requerimientos
+- **Asegúrate de hacer solo los cambios solicitados o aquellos en los que tengas plena confianza de que están bien comprendidos y están relacionados con la solicitud**
+- Lee cuidadosamente los requerimientos antes de implementar
+- Pregunta por clarificaciones si algo no está claro
+- Mantén el scope de cambios enfocado y controlado
+
+### Manejo de Errores y Bugs
+- **Al corregir un error o bug, no introduzcas un nuevo patrón o tecnología sin antes haber agotado todas las opciones con la implementación actual**
+- Intenta solucionar con las herramientas y patrones existentes primero
+- **Si finalmente decides hacerlo, asegúrate de eliminar la implementación anterior para evitar lógica duplicada**
+- Documenta los cambios importantes en commits descriptivos
+
+### Organización y Estructura
+- **Mantén la base de código limpia y bien organizada**
+- Organiza archivos en directorios lógicos (components/, hooks/, lib/, etc.)
+- Usa barrel exports (index.ts) cuando sea apropiado
+- Mantén imports organizados y agrupados
+
+### Scripts y Automatización
+- **Evita escribir scripts directamente en archivos si es posible, especialmente si ese script solo se va a ejecutar una vez**
+- Prefiere comandos npm/yarn scripts en package.json
+- Usa herramientas de desarrollo apropiadas (ESLint, Prettier, TypeScript)
+- Automatiza tareas repetitivas cuando sea posible
+
+### Documentación y Archivos
+- **NO crear tantos archivos .md con instrucciones**
+- Mantén la documentación mínima y esencial
+- Prefiere comentarios en código sobre documentación externa
+- Solo crea archivos README cuando sea absolutamente necesario
+
+### Seguridad y Variables de Entorno
+- **Utiliza SIEMPRE variables de entorno para datos sensibles**
+- NUNCA hardcodees API keys, passwords, tokens o URLs de producción
+- **Asegúrate de que las variables de entorno sean ignoradas en git**
+- Usa archivos .env.local para desarrollo (ya incluido en .gitignore)
+- Proporciona archivos .env.example con valores de ejemplo (sin datos reales)
+- Valida que todas las variables sensibles estén en .gitignore
+
+## 🛠️ Específico para este Proyecto
+
+### Stack Tecnológico
+- **Next.js 14** con App Router
+- **TypeScript** para type safety
+- **Tailwind CSS** para estilos
+- **Shadcn/ui** para componentes
+- **Supabase** para backend y base de datos
+
+### Estructura de Componentes
+```
+components/
+├── ui/           # Componentes base de shadcn/ui
+├── game-*.tsx    # Componentes específicos del juego
+└── shared/       # Componentes reutilizables
+```
+
+### Patrones de Estado
+- Usa React hooks para estado local
+- Implementa Context API para estado global cuando sea necesario
+- Considera Zustand para estado más complejo si es requerido
+
+### Supabase Integration
+- Usa el hook `useSupabase` para autenticación
+- Implementa Row Level Security (RLS) en las tablas
+- Genera tipos TypeScript desde el schema de Supabase
+
+### Testing y Calidad
+- Ejecuta `npm run lint` antes de commits importantes
+- Usa TypeScript strict mode
+- Valida props con interfaces TypeScript
+
+## 🚀 Comandos Útiles
+
+```bash
+# Desarrollo
+npm run dev
+
+# Linting
+npm run lint
+
+# Build para producción
+npm run build
+
+# Supabase local
+npm run supabase:start
+npm run supabase:generate-types
+```
+
+## 📝 Notas Importantes
+
+- Siempre revisar que los cambios no rompan la funcionalidad existente
+- Mantener consistencia con el diseño y UX establecido
+- Priorizar la experiencia del usuario final
+- Documentar decisiones técnicas importantes en commits o comentarios
