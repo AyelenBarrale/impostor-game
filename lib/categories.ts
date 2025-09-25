@@ -46,13 +46,20 @@ export async function getCategories(): Promise<CategoryWithWords[]> {
   }
 
   try {
+    console.log('🔍 Attempting to fetch categories from Supabase...')
     const { data: categories, error: categoriesError } = await supabase
       .from('categories')
       .select('*')
       .order('name')
 
+    console.log('🔍 Supabase response:', { 
+      categoriesCount: categories?.length || 0, 
+      error: categoriesError,
+      hasData: !!categories 
+    })
+
     if (categoriesError) {
-      console.warn('Error fetching categories from Supabase, using fallback:', categoriesError)
+      console.warn('❌ Error fetching categories from Supabase:', categoriesError)
       return FALLBACK_CATEGORIES
     }
 
