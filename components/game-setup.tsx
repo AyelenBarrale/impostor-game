@@ -115,7 +115,11 @@ export function GameSetup({ gameState, updateGameState }: GameComponentProps) {
       return
     }
 
+    // Verificar si hay alguna otra tarjeta revelada
+    const anyCardRevealed = cardsRevealed.some((revealed, i) => revealed && i !== index)
+  
     if (cardsRevealed[index]) {
+      // Si la tarjeta actual está revelada, marcarla como usada
       const newRevealed = [...cardsRevealed]
       newRevealed[index] = false
       setCardsRevealed(newRevealed)
@@ -128,7 +132,8 @@ export function GameSetup({ gameState, updateGameState }: GameComponentProps) {
         clearTimeout(cardTimers[index])
         setCardTimers((prev) => ({ ...prev, [index]: null }))
       }
-    } else {
+    } else if (!anyCardRevealed) {
+      // Solo revelar si NO hay ninguna otra tarjeta revelada
       const newRevealed = [...cardsRevealed]
       newRevealed[index] = true
       setCardsRevealed(newRevealed)
@@ -276,9 +281,9 @@ export function GameSetup({ gameState, updateGameState }: GameComponentProps) {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="flex flex-wrap justify-center gap-6">
             {gameState.players.map((player, index) => (
-              <div key={player.id} className="relative h-40">
+              <div key={player.id} className="relative h-40 w-full max-w-[200px] sm:w-[200px]">
                 <div
                   className={`clean-card h-full rounded-xl transition-all duration-200 ${
                     cardsUsed[index] ? "card-disabled" : "cursor-pointer hover:shadow-lg"

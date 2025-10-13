@@ -9,7 +9,12 @@ export function GameVoting({ gameState, updateGameState }: GameComponentProps) {
   const [votes, setVotes] = useState<{ [key: number]: number }>({})
   const [totalVotes, setTotalVotes] = useState(0)
 
+  // Calcular el máximo de votos permitidos (igual al número de jugadores)
+  const maxVotes = gameState.players.length
+
   const voteForPlayer = (playerId: number) => {
+    // Solo permitir votar si no se ha alcanzado el máximo
+    if (totalVotes >= maxVotes) return
     const newVotes = { ...votes }
     newVotes[playerId] = (newVotes[playerId] || 0) + 1
     setVotes(newVotes)
@@ -32,8 +37,8 @@ export function GameVoting({ gameState, updateGameState }: GameComponentProps) {
     })
   }
 
-  const canReveal = totalVotes >= gameState.players.length
-
+  // Habilitar el botón de revelar cuando se alcance el máximo de votos
+  const canReveal = totalVotes >= maxVotes
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       <Card className="p-8 tactical-border bg-card/50 backdrop-blur">
@@ -42,7 +47,7 @@ export function GameVoting({ gameState, updateGameState }: GameComponentProps) {
 
           <div className="bg-primary/10 p-4 rounded border border-primary/30">
             <p className="text-primary font-medium">
-              Votos registrados: {totalVotes} / {gameState.players.length}
+              Votos registrados: {totalVotes} / {maxVotes}
             </p>
           </div>
 
@@ -58,6 +63,7 @@ export function GameVoting({ gameState, updateGameState }: GameComponentProps) {
                     onClick={() => voteForPlayer(player.id)}
                     className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                     size="sm"
+                    disabled={totalVotes >= maxVotes}
                   >
                     VOTAR COMO IMPOSTOR
                   </Button>
